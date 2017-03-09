@@ -15,7 +15,10 @@ class Home extends Component
 
     handleChange(e)
     {
+        
         this.setState({value: e.target.value});
+         
+       
     }
     render()
     {
@@ -23,9 +26,13 @@ class Home extends Component
         return(
             <div>
             <h1>TODO</h1>
-            <input type="text" value={this.state.value} onChange={this.handleChange}/>
-            <button onClick={()=>this.props.addTodo(this.state.value)}> Add </button>
-            <p>{this.props.todolist}</p>
+            <input type='text' value={this.state.value} onChange={this.handleChange}/>
+            <button onClick={() => this.props.addTodo(this.state.value)}> Add </button>
+            <ul>
+                {this.props.todolist.map((item)=>(
+                <li key={item.id}>{item.name}</li>
+                ))}
+            </ul>
             </div>
         )
     }
@@ -33,7 +40,7 @@ class Home extends Component
 
 function bindActions(dispatch) {
     return {
-        addTodo: ()=> dispatch(addTodo())
+        addTodo: (val)=> dispatch(addTodo(val))
   };
 }
 
