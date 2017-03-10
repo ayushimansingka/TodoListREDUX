@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { addTodo } from '../actions/todoActions';
+import { addTodo , deleteTodo , markComplete } from '../actions/todoActions';
 import { connect } from 'react-redux';
 
 class Home extends Component
@@ -26,12 +26,17 @@ class Home extends Component
         return(
             <div>
             <h1>TODO</h1>
-            <input type='text' value={this.state.value} onChange={this.handleChange}/>
-            <button onClick={() => this.props.addTodo(this.state.value)}> Add </button>
+            <input style={{margin: 5}} type='text' value={this.state.value} onChange={this.handleChange}/>
+            <button style={{margin: 10, padding: 10}} onClick={() => this.props.addTodo(this.state.value)}> Add </button>
             <ul>
                 {this.props.todolist.map((item)=>(
-                <li key={item.id}>{item.name}</li>
-                ))}
+                <li key={item.id}>{item.name}
+                <button  style={{margin: 10, padding: 10}} onClick={()=>this.props.deleteTodo(item.id)} > Delete </button> 
+                <button style={{margin: 10, padding: 10}} onClick={()=>this.props.markComplete(item.id)} disabled={item.completed}> Mark as complete </button>
+                </li>
+                )
+                )
+                }
             </ul>
             </div>
         )
@@ -40,7 +45,9 @@ class Home extends Component
 
 function bindActions(dispatch) {
     return {
-        addTodo: (val)=> dispatch(addTodo(val))
+        addTodo: (val)=> dispatch(addTodo(val)),
+        deleteTodo: (id)=>dispatch(deleteTodo(id)),
+        markComplete: (id)=>dispatch(markComplete(id))
   };
 }
 
